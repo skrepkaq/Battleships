@@ -1,0 +1,29 @@
+#logreg_btn {
+    color: #0000FF;
+    cursor: pointer;
+}
+
+#logreg_btn:hover {
+    text-decoration: underline;
+}
+
+#login_alert {
+    color: red;
+}
+
+table td {
+    text-align: center;
+}
+
+.game_text {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+#code_input {
+    text-transform: uppercase;
+}
+
+.hide {
+    display: none;
+}
