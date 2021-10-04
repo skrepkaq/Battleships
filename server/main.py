@@ -1,3 +1,8 @@
+'''
+Battleships server
+'''
+
+
 import json
 import asyncio
 import ssl
@@ -20,14 +25,16 @@ users = set()
 
 
 async def handler(websocket, _):
+    # ws connection handler
     user = User(websocket)
     users.add(user)
-    await wst.send(user.ws, {'type':'state', 'data': -2})
+    await wst.send(user.ws, {'type': 'state', 'data': -2})  # sends state=-2(connected) to the client
     try:
         async for message in websocket:
             try:
                 rc = json.loads(message)
                 user_state = user.get_state()
+                # state 0-pre login 1-login 2-in game
                 if user_state == 2:
                     await game.action[rc['type']](user, rc)
                 elif user_state == 1 and rc["type"] == "join":
@@ -37,9 +44,9 @@ async def handler(websocket, _):
                         await auth.authorization(users, user, rc)
             except Exception:
                 log.exception(traceback.format_exc())
-    
+
     except Exception:
-        #only ws connection close errors
+        # only ws connection close errors
         pass
     finally:
         await game.finish(user)

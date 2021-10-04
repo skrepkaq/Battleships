@@ -2,19 +2,21 @@ import wst
 import database
 from round import Round
 
+
 rounds = set()
 
-async def join(user, type, code = None): #0 join random 1 join code 2 create
+
+async def join(user, type, code=None):  # 0-join random 1-join by code 2-create
     if type == 0:
         fnd = False
         for round in rounds:
-            if round.get_type() and round.get_state() == 0:  #found round(random) with 1 player
+            if round.get_type() and round.get_state() == 0:  # found round(random) with 1 player
                 await round.add_player(user)
                 fnd = True
                 break
         if fnd: return
         round = Round(1)
-        rounds.add(round)                               #nefound, create
+        rounds.add(round)                                    # nefound, create
         await round.add_player(user)
     elif type == 1:
         for round in rounds:
@@ -22,8 +24,8 @@ async def join(user, type, code = None): #0 join random 1 join code 2 create
                 await round.add_player(user)
     elif type == 2:
         round = Round(0)
-        rounds.add(round)                               #create with code
-        await wst.send(user.ws, {'type':'code', 'data': round.get_code()})
+        rounds.add(round)                                    # create with code
+        await wst.send(user.ws, {'type': 'code', 'data': round.get_code()})
         await round.add_player(user)
 
 
@@ -60,8 +62,8 @@ async def finish(user):
     if not round: return
     opponent = get_opponent(round, player)
     print(f'end game with {round}, {player}, {opponent}, {user.ws}')
-    if opponent: await wst.send(opponent.user.ws, {'type':'end', 'data': 4})
-    if round.get_state() == 3: database.game_log(round,player)
+    if opponent: await wst.send(opponent.user.ws, {'type': 'end', 'data': 4})
+    if round.get_state() == 3: database.game_log(round, player)
     rounds.remove(round)
 
 
@@ -80,7 +82,6 @@ def get_opponent(round, player):
     return None
 
 
-    
 action = {'place': place,
           'auto_place': auto_place,
           'shot': shot,

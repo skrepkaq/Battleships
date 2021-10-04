@@ -1,21 +1,23 @@
 import time
 from random import choice
 import database
+import wst
 abc = 'abcdefghjklmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ123456789'
 
 
-def create(user_id, ip):
+async def create(user_id, ws):
+    # creates and sends new token
     database.expire_tokens('userId', user_id, -1)
     token = ""
     for _ in range(30):
         token += choice(abc)
-    database.insert('tokens', 'token,userId,ip,time,state', (token,user_id,ip,int(time.time()),1))
-    return token
+    database.insert('tokens', 'token,userId,ip,time,state', (token, user_id, ws.remote_address[0], int(time.time()), 1))
+    await wst.send(ws, {'type': 'token', 'data': token})
 
 
-def use(ip, token):
-    sql_token = database.check_token(ip, token)
-    if sql_token:
-        database.expire_tokens('tokenId', sql_token[0], 0)
-        return create(sql_token[2], ip), sql_token[2]
-    return False
+def use(token, ws):
+    # checks if token is valid. Returns userID
+    sql_token = database.check_token(ws.remote_address[0], token)
+    if not sql_token: return False
+    database.expire_tokens('tokenId', sql_token[0], 0)
+    return sql_token[2]
