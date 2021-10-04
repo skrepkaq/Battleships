@@ -340,7 +340,7 @@ function draw_ships(stX, stY, size, brd, is_shot) {
                     case 1:
                         ctx.fillStyle = "#555555";
                         break;
-                    case 3:
+                    case 2:
                         errors++;
                         ctx.fillStyle = "#FF0000";
                         break;

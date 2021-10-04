@@ -1,17 +1,27 @@
 from random import randint
+from enum import Enum
+
+
+class Cell(Enum):
+    EMPTY = 0
+    SHIP = 1
+    ERROR = 2
+    DEAD = 3
+    MISS = 4
+    HIT = 5
 
 
 class Board():
     def __init__(self):
-        self.board = [[0 for _ in range(10)] for _ in range(10)]  # 0-empty   1-ship   3-dead   4-miss   5-hit
+        self.board = [[Cell.EMPTY for _ in range(10)] for _ in range(10)]
         self.ships = [0, 0, 0, 0]
 
     def place(self, num, state):
-        self.board[int(num/10)][num%10] = state
-        arr_brd = ([[_ for _ in _] for _ in self.board])  # copy board
+        self.board[int(num/10)][num%10] = Cell(state)
+        arr_brd = ([[val.value for val in _] for _ in self.board])  # copy board
         for error in self.count_ships():
-            # set all cells with errors to 3
-            arr_brd[error[1]][error[0]] = 3
+            # set all cells with errors to 2
+            arr_brd[error[1]][error[0]] = 2
         return arr_brd
 
     def shot(self, num):
@@ -24,14 +34,15 @@ class Board():
         x = num % 10
         y = int(num/10)
         brd = self.board
-        if brd[y][x] in (3, 4, 5): return False
-        if brd[y][x] == 0:
-            brd[y][x] = 4
+        if brd[y][x] in (Cell.DEAD, Cell.MISS, Cell.HIT): return False
+        if brd[y][x] == Cell.EMPTY:
+            brd[y][x] = Cell.MISS
             change_turn = True
         else:
-            brd[y][x] = 5
+            brd[y][x] = Cell.HIT
             self.kill_check(self.board, x, y)
-        return ([[x if x != 1 else 0 for x in y] for y in brd]), change_turn  # copy board and hide (1-ship) cells
+        # copy board but hide alive ships
+        return ([[x.value if x != Cell.SHIP else 0 for x in y] for y in brd]), change_turn
 
     def count_ships(self) -> set:
         '''
@@ -40,20 +51,20 @@ class Board():
         def check_ship_vertical(x, y):
             # returns True if ship is vertical
             if 0 <= y-1 < 10:
-                if self.board[y-1][x] == 1: return True
+                if self.board[y-1][x] == Cell.SHIP: return True
             if 0 <= y+1 < 10:
-                if self.board[y+1][x] == 1: return True
+                if self.board[y+1][x] == Cell.SHIP: return True
             return False
 
         def check_ship_end(x, y, swap):
             # checks if next cell is empty or border
             if swap == 1:
                 if y == 9: return True
-                if self.board[y+1][x] == 0: return True
+                if self.board[y+1][x] == Cell.EMPTY: return True
                 return False
             else:
                 if x == 9: return True
-                if self.board[y][x+1] == 0: return True
+                if self.board[y][x+1] == Cell.EMPTY: return True
                 return False
 
         def check_corners(x, y):
@@ -66,7 +77,7 @@ class Board():
                 dx = x + corners_shift[i][1]
                 dy = y + corners_shift[i][0]
                 if 0 <= dx < 10 and 0 <= dy < 10:
-                    if self.board[dy][dx] == 1: return True
+                    if self.board[dy][dx] == Cell.SHIP: return True
             return False
 
         self.ships = [0, 0, 0, 0]
@@ -78,7 +89,7 @@ class Board():
                 for px in range(10):
                     x, y = px, py
                     if swap == 1: y, x = px, py  # swap x and y to count vertical ships
-                    if self.board[y][x] == 1:
+                    if self.board[y][x] == Cell.SHIP:
                         curr_ship_len += 1
                         if check_corners(x, y):
                             errors.add((x, y))
@@ -109,34 +120,34 @@ class Board():
         return errors
 
     def kill_check(self, brd, x, y) -> None:
-        # checks if shot was lethal to the ship and changes 5-hit to 3-dead
+        # checks if shot was lethal to the ship and changes hit to dead
         def check_step(x, y):
             x += shift_map[i][0]
             y += shift_map[i][1]
             if 0 <= x < 10 and 0 <= y < 10:
                 cell = brd[y][x]
-                if cell == 1:
+                if cell == Cell.SHIP:
                     # found alive cell of ship
                     global alive
                     alive = True
-                elif cell == 5:
+                elif cell == Cell.HIT:
                     global last_cords
                     last_cords = [x, y, i]
                     # cell is dead, check next
                     check_step(x, y)
 
         def miss_step(x, y, i):
-            # changes 5-hit to 3-dead
+            # changes hit to dead
             if 0 <= x < 10 and 0 <= y < 10:
-                if brd[y][x] == 5:
+                if brd[y][x] == Cell.HIT:
                     for x_s in range(-1, 2):
                         for y_s in range(-1, 2):
-                            # fill area around dead ship with 4-miss
+                            # fill area around dead ship with miss
                             pX = x+x_s
                             pY = y+y_s
                             if 0 <= pX < 10 and 0 <= pY < 10:
-                                if brd[pY][pX] == 0: brd[pY][pX] = 4
-                    brd[y][x] = 3
+                                if brd[pY][pX] == Cell.EMPTY: brd[pY][pX] = Cell.MISS
+                    brd[y][x] = Cell.DEAD
                     miss_step(x+shift_map[i][0], y+shift_map[i][1], i)
 
         global alive
@@ -153,11 +164,11 @@ class Board():
             check_step(x, y)
         if not alive:
             # ship is dead
-            # turn around by shift_of_shift_map and change 5's to 3's
+            # turn around by shift_of_shift_map and change hit to dead
             miss_step(last_cords[0], last_cords[1], shift_of_shift_map[last_cords[2]])
 
     def auto_place(self):
-        self.board = [[0 for _ in range(10)] for _ in range(10)]
+        self.board = [[Cell.EMPTY for _ in range(10)] for _ in range(10)]
         i = 0
         while True:
             i += 1
@@ -167,23 +178,23 @@ class Board():
                 break
             x = randint(0, 9)
             y = randint(0, 9)
-            self.board[y][x] = 1  # place ship in random cell
+            self.board[y][x] = Cell.SHIP  # place ship in random cell
             if self.count_ships():
                 # if any errors - wrong cell
-                self.board[y][x] = 0
+                self.board[y][x] = Cell.EMPTY
             elif self.ships == [4, 3, 2, 1]:
-                return self.board
+                return ([[val.value for val in _] for _ in self.board])
 
     def count_all(self):
         # returns count of alive ship cells
         int_sum = 0
         for row in self.board:
             for i in row:
-                if i == 1: int_sum += 1
+                if i == Cell.SHIP: int_sum += 1
         return int_sum
 
     def get_ships(self):
         return self.ships
 
     def get_base_board(self):
-        return "".join("".join(str(x) for x in y) for y in self.board)
+        return "".join("".join(str(x.value) for x in y) for y in self.board)
