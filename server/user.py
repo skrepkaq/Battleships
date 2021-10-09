@@ -11,8 +11,11 @@ class User:
         self.nickname = None
 
     async def register(self, login, hash):
-        if database.find('users', 'login', login): return 1  # check if account with this login already exist
-        database.insert('users', 'login,password', (login, hash))
+        if database.find('users', 'login', login): return 1
+        # check if account with this login already exist
+        if len(database.find('users', 'ip', self.ws.remote_address[0])) >= 5: return 5
+        # check if too many accounts with this ip
+        database.insert('users', 'login, password, ip', (login, hash, self.ws.remote_address[0]))
         log.authorization('Register', login, ' ', self.ws.remote_address)
         return await self.login(hash)
 
@@ -26,9 +29,9 @@ class User:
         if not sql_user: return 0
         for user in users:
             # check if account is already online
-            if user.id == sql_user[0]: return 3
-        self.id = sql_user[0]
-        self.nickname = sql_user[1]
+            if user.id == sql_user[0][0]: return 3
+        self.id = sql_user[0][0]
+        self.nickname = sql_user[0][1]
         self.state = 1
         log.authorization('Login', self.nickname, self.id, self.ws.remote_address, tok_user_id)
         await login_token.create(self.id, self.ws)

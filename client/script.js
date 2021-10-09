@@ -263,6 +263,9 @@ function receive(event) {
                 case 3:
                     loginAlert.innerHTML = "This account is already online";
                     break;
+                case 5:
+                    loginAlert.innerHTML = "Stop creating so many accounts!";
+                    break;
             }
             break;
         case "token":

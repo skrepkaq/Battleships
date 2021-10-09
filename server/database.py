@@ -10,7 +10,8 @@ def tables_create():
     sql.execute("""CREATE TABLE IF NOT EXISTS users (
     userId INTEGER PRIMARY KEY AUTOINCREMENT,
     login TEXT,
-    password TEXT)""")
+    password TEXT,
+    ip TEXT)""")
 
     sql.execute("""CREATE TABLE IF NOT EXISTS games (
     gameId INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -34,12 +35,16 @@ def tables_create():
     time INTEGER,
     state INTEGER,
     FOREIGN KEY (userId) REFERENCES user (userId))""")
+
+    sql.execute("PRAGMA table_info(users);")
+    if len(sql.fetchall()) < 4:
+        sql.execute("ALTER TABLE users ADD ip TEXT;")
     db.commit()
 
 
 def find(table, col, val):
     sql.execute(F"SELECT * FROM {table} WHERE {col} = '{val}'")
-    return sql.fetchone()
+    return sql.fetchall()
 
 
 def check_token(ip, token):

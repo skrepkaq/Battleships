@@ -29,6 +29,7 @@ async def authorization(users, user, rc) -> None:
     2-OK
     3-Account is already online
     4-Wrong token
+    5-Too many accounts
     '''
     await wst.send(user.ws, {'type': 'login_result', 'data': login_result})
     if login_result == 2:
