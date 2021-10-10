@@ -11,19 +11,27 @@
         <section class="block hide">
             <h2>Welcome to Battleships</h2>
             <form>
-                <input type="text" name="login" size="20" placeholder="Login" value="" required />
-                <input type="password" name="password" size="20" placeholder="Password" value="" required />
+                <input type="text" name="login" size="20" placeholder="Login" value="" required autocomplete="nickname"/>
+                <input type="password" name="password" size="20" placeholder="Password" value="" required autocomplete="current-password"/>
                 <button id="login_btn" type="submit">Log in</button>
             </form>
             <p id="login_alert"></p>
-            <p><span id="logreg_text">Don't have an account?</span> <a id="logreg_btn">Register</a> now!</p>
+            <p>
+                <span id="logreg_text">Don't have an account?</span>
+                <a id="logreg_btn">Register</a> now!
+            </p>
         </section>
         <section class="block hide join_container">
             <button class="join_game">Join random game</button>
-            <div><input type="text" id="code_input" size="4" placeholder="code" /> <button class="join_game">Use code</button></div>
+            <div>
+                <input type="text" id="code_input" size="4" placeholder="code" />
+                <button class="join_game">Use code</button>
+            </div>
             <button class="join_game">Create game</button>
         </section>
-        <canvas width="850" height="420"></canvas>
+        <div class="canvas_container">
+            <canvas width="850" height="420"></canvas>
+        </div>
         <script defer src="script.js"></script>
     </body>
 </html>

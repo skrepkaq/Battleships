@@ -6,16 +6,12 @@ body {
     place-items: center;
 }
 
-canvas {
-    cursor: pointer;
+.canvas_container {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
 }
 
 #logreg_btn {
-    color: #0000ff;
+    color: #0000FF;
     cursor: pointer;
 }
 

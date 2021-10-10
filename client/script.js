@@ -40,7 +40,12 @@ const socket = new WebSocket(PROTOCOL + "://" + IP + ":" + PORT);
 canvas.addEventListener("click", event => {
     const x = event.layerX;
     const y = event.layerY;
-    if (x > active_startX && x < active_startX + field_size && y > active_startY && y < active_startY + field_size) {
+    if (
+        x > active_startX &&
+        x < active_startX + field_size &&
+        y > active_startY &&
+        y < active_startY + field_size
+    ) {
         const fldX = x - active_startX;
         const fldY = y - active_startY;
         const cellSize = field_size / 10;
@@ -67,13 +72,24 @@ canvas.addEventListener("click", event => {
             );
         return;
     }
-    if ((state === 1) & (x > field_startX + field_size + 10) && x < field_startX + field_size + 130 && y > field_startY + field_size - 30 && y < field_startY + field_size)
+    if (
+        (state === 1) & (x > field_startX + field_size + 10) &&
+        x < field_startX + field_size + 130 &&
+        y > field_startY + field_size - 30 &&
+        y < field_startY + field_size
+    )
         return socket.send(
             JSON.stringify({
                 type: "start"
             })
         );
-    if (state === 1 && x > field_startX + field_size + 10 && x < field_startX + field_size + 130 && y > field_startY && y < field_startY + 30)
+    if (
+        state === 1 &&
+        x > field_startX + field_size + 10 &&
+        x < field_startX + field_size + 130 &&
+        y > field_startY &&
+        y < field_startY + 30
+    )
         return socket.send(
             JSON.stringify({
                 type: "auto_place"
@@ -213,8 +229,10 @@ socket.onmessage = event => {
 
 const draw_field = (stX, stY) => {
     ctx.fillStyle = "#000000";
-    for (let i = 0; i < 11; i++) ctx.fillRect(stX + (i * field_size) / 10, stY, field_canvas, field_size + field_canvas);
-    for (let i = 0; i < 11; i++) ctx.fillRect(stX, stY + (i * field_size) / 10, field_size, field_canvas);
+    for (let i = 0; i < 11; i++)
+        ctx.fillRect(stX + (i * field_size) / 10, stY, field_canvas, field_size + field_canvas);
+    for (let i = 0; i < 11; i++)
+        ctx.fillRect(stX, stY + (i * field_size) / 10, field_size, field_canvas);
 };
 
 const draw_ships = (stX, stY, size, brd, is_shot) => {
@@ -243,17 +261,34 @@ const draw_ships = (stX, stY, size, brd, is_shot) => {
                         ctx.fillStyle = "#000000";
                         break;
                 }
-                ctx.fillRect(stX + (x * size) / 10 + field_canvas, stY + (y * size) / 10 + field_canvas, size / 10 - field_canvas, size / 10 - field_canvas);
+                ctx.fillRect(
+                    stX + (x * size) / 10 + field_canvas,
+                    stY + (y * size) / 10 + field_canvas,
+                    size / 10 - field_canvas,
+                    size / 10 - field_canvas
+                );
             } else {
                 if (val === 4) {
                     ctx.fillStyle = "#999999";
                     ctx.beginPath();
-                    ctx.arc(stX + ((x + 0.5) * size) / 10 + field_canvas, stY + ((y + 0.5) * size) / 10 + field_canvas, 3, 0, 2 * Math.PI, false);
+                    ctx.arc(
+                        stX + ((x + 0.5) * size) / 10 + field_canvas,
+                        stY + ((y + 0.5) * size) / 10 + field_canvas,
+                        3,
+                        0,
+                        2 * Math.PI,
+                        false
+                    );
                     ctx.fill();
                 } else if (val !== 0) {
                     if (val === 3) {
                         ctx.fillStyle = "#555555";
-                        ctx.fillRect(stX + (x * size) / 10 + field_canvas, stY + (y * size) / 10 + field_canvas, size / 10 - field_canvas, size / 10 - field_canvas);
+                        ctx.fillRect(
+                            stX + (x * size) / 10 + field_canvas,
+                            stY + (y * size) / 10 + field_canvas,
+                            size / 10 - field_canvas,
+                            size / 10 - field_canvas
+                        );
                     }
                     ctx.strokeStyle = "#FF0000";
                     ctx.lineWidth = 2;
@@ -273,23 +308,39 @@ const draw_ships_count = () => {
     ctx.textAlign = "right";
     let correct_ships = 0;
     for (let i = 0; i < 4; i++) {
-        if (ships_count[i] < 4 - i) {
-            ctx.fillStyle = "#333333";
-        } else if (ships_count[i] === 4 - i) {
+        if (ships_count[i] < 4 - i) ctx.fillStyle = "#333333";
+        else if (ships_count[i] === 4 - i) {
             correct_ships++;
             ctx.fillStyle = "#00FF00";
-        } else {
-            ctx.fillStyle = "#FF0000";
-        }
-        ctx.fillText(`${ships_count[i]}/${4 - i} ships`, field_startX + field_size + 82, field_startY + field_size / 2 + i * 50 - 50);
-        ctx.fillRect(field_startX + field_size + 82 - 18 * (i + 1), field_startY + field_size / 2 + i * 50 - 30 + 18 - 50, 18 * (i + 1), (-18 / (4 - i)) * ships_count[i]);
+        } else ctx.fillStyle = "#FF0000";
+
+        ctx.fillText(
+            `${ships_count[i]}/${4 - i} ships`,
+            field_startX + field_size + 82,
+            field_startY + field_size / 2 + i * 50 - 50
+        );
+        ctx.fillRect(
+            field_startX + field_size + 82 - 18 * (i + 1),
+            field_startY + field_size / 2 + i * 50 - 30 + 18 - 50,
+            18 * (i + 1),
+            (-18 / (4 - i)) * ships_count[i]
+        );
         ctx.strokeStyle = "#000000";
-        for (let j = 0; j < i + 1; j++) {
-            ctx.strokeRect(field_startX + field_size + 82 - 18 * j, field_startY + field_size / 2 + i * 50 - 30 - 50, -18, 18);
-        }
+        for (let j = 0; j < i + 1; j++)
+            ctx.strokeRect(
+                field_startX + field_size + 82 - 18 * j,
+                field_startY + field_size / 2 + i * 50 - 30 - 50,
+                -18,
+                18
+            );
     }
     if (correct_ships === 4 && errors === 0) {
-        draw_button(field_startX + field_size + 70, field_startY + field_size - 15, "Start!", "#009900");
+        draw_button(
+            field_startX + field_size + 70,
+            field_startY + field_size - 15,
+            "Start!",
+            "#009900"
+        );
     }
 };
 
@@ -298,15 +349,17 @@ const draw_alert = () => {
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.fillStyle = "#000000";
-    if (state === 3) {
-        ctx.fillText(alert_text, field_startX + field_size + 25, field_startY - 30);
-    } else if (code && state === 0) {
+    if (state === 3)
+        return ctx.fillText(alert_text, field_startX + field_size + 25, field_startY - 30);
+    if (code && state === 0) {
         ctx.font = "25px Tahoma";
         ctx.fillText("Your connection", field_startX + field_size / 2, field_startY - 30);
         ctx.fillText(`code: ${code}`, field_startX + field_size / 2, field_startY - 5);
         ctx.font = "15px Tahoma";
         ctx.fillText("(click to copy)", field_startX + field_size / 2, field_startY + 15);
-    } else ctx.fillText(alert_text, field_startX + field_size / 2, field_startY - 30);
+        return;
+    }
+    ctx.fillText(alert_text, field_startX + field_size / 2, field_startY - 30);
 };
 
 const draw_nick = () => {
@@ -315,12 +368,16 @@ const draw_nick = () => {
     ctx.fillStyle = "#000000";
     if (state !== 3) {
         ctx.font = "20px Tahoma";
-        ctx.fillText(`You play against ${opp_nick}`, field_startX + field_size / 2, field_startY + field_size + 30);
-    } else {
-        ctx.font = "30px Tahoma";
-        ctx.fillText(nick, field_startX + field_size / 2, field_startY + field_size + 30);
-        ctx.fillText(opp_nick, active_startX + field_size / 2, active_startY + field_size + 30);
+        ctx.fillText(
+            `You play against ${opp_nick}`,
+            field_startX + field_size / 2,
+            field_startY + field_size + 30
+        );
+        return;
     }
+    ctx.font = "30px Tahoma";
+    ctx.fillText(nick, field_startX + field_size / 2, field_startY + field_size + 30);
+    ctx.fillText(opp_nick, active_startX + field_size / 2, active_startY + field_size + 30);
 };
 
 const draw_top = (x, y) => {
@@ -359,12 +416,14 @@ const draw_button = (bt_X, bt_Y, text, color) => {
 const redraw = () => {
     ctx.clearRect(0, 0, 850, 420);
     draw_alert();
-    if (ended) {
-        draw_button(field_startX + field_size + 25, field_startY + field_size + 30, "Restart", "#990000");
-    }
-    if (board) {
-        draw_ships(field_startX, field_startY, field_size, board, false);
-    }
+    if (ended)
+        draw_button(
+            field_startX + field_size + 25,
+            field_startY + field_size + 30,
+            "Restart",
+            "#990000"
+        );
+    if (board) draw_ships(field_startX, field_startY, field_size, board, false);
     switch (state) {
         case -1:
             draw_top(field_startX + 190, field_startY - 20);
@@ -416,8 +475,23 @@ form.addEventListener("submit", e => {
 
     if (pswgd.length > 5 && lgn.length > 3 && pswgd.length <= 50 && lgn.length <= 20) {
         if (lgn.match(/^[0-9a-zA-Z_-]+$/)) {
-            if (registr) return socket.send(JSON.stringify({ type: "authorization", method: "register", login: lgn, password: pswgd }));
-            return socket.send(JSON.stringify({ type: "authorization", method: "login", login: lgn, password: pswgd }));
+            if (registr)
+                return socket.send(
+                    JSON.stringify({
+                        type: "authorization",
+                        method: "register",
+                        login: lgn,
+                        password: pswgd
+                    })
+                );
+            return socket.send(
+                JSON.stringify({
+                    type: "authorization",
+                    method: "login",
+                    login: lgn,
+                    password: pswgd
+                })
+            );
         }
         return (loginAlert.textContent = "Please use only A-Z 0-9 characters");
     }
@@ -436,24 +510,18 @@ redraw();
 socket.onopen = () => {
     console.log("Connected.");
     const token = localStorage.getItem("skrepka.battleships.token.login");
-    if (token) {
-        socket.send(JSON.stringify({ type: "authorization", method: "token", token }));
-    } else {
-        blocks[0].classList.remove("hide");
-        alert_text = "";
-        state = -2;
-    }
+    if (token) return socket.send(JSON.stringify({type: "authorization", method: "token", token}));
+    blocks[0].classList.remove("hide");
+    alert_text = "";
+    state = -2;
 };
 
 socket.onclose = event => {
-    if (event.wasClean) {
-        console.log("Close connection");
-    } else {
-        console.log("Connection fail");
-        alert_text = "Fail to connect to server";
-        redraw();
-    }
     console.log(`Code: ${event.code} reason: ${event.reason}`);
+    if (event.wasClean) return console.log("Close connection");
+    console.log("Connection fail");
+    alert_text = "Failed to connect to server";
+    redraw();
 };
 
 socket.onerror = error => console.error(`Error ${error.message}`);
