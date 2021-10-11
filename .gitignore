@@ -1,0 +1,6 @@
+log/
+server/__pycache__
+.vscode/
+old/
+*.db
+*.rar
