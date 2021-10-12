@@ -14,9 +14,7 @@ body {
     right: 0;
     bottom: 0;
     overflow: auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    padding: calc(50vh - 210px) calc(50vw - 425px);
 }
 
 #logreg_btn {
@@ -104,5 +102,6 @@ form {
 
 .join_container div button {
     width: 30%;
+    margin-left: -1px;
     border-radius: 0 0.5em 0.5em 0;
 }
