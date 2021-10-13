@@ -7,6 +7,7 @@ body {
     align-items: center;
     background-color: #003366;
     transition: background-color, 1s;
+    cursor: pointer;
 }
 
 .canvas_container {
@@ -71,7 +72,7 @@ button {
     border: 0px solid black;
     border-radius: 0px;
 }
-input::-webkit-input-placeholder { color: white; }
+input::placeholder { color: white; }
 button {
     cursor: pointer;
     border: 0px solid black;
@@ -86,6 +87,9 @@ button {
     transition: width, 1s;
 }
 
+.join_game {
+    background-color: #0099CC;
+}
 
 a {
     color: black;
@@ -140,6 +144,5 @@ form {
 }
 
 #logreg_text {
-    color: #999999;
+    color: white;
 }
-
