@@ -172,23 +172,23 @@ socket.onmessage = event => {
         case "turn":
             turn = rc.data;
             if (turn === 1) {
-                alert_text = "You walk";
+                alert_text = "Your turn";
             } else {
-                alert_text = "The opponent walks";
+                alert_text = "The opponent's turn";
             }
             break;
         case "end":
             switch (rc.data) {
                 case 0:
-                    alert_text = "You've lost!";
+                    alert_text = "You lost!";
                     ended = true;
                     break;
                 case 1:
-                    alert_text = "You have won!";
+                    alert_text = "You won!";
                     ended = true;
                     break;
                 case 4:
-                    alert_text = "The opponent is out!";
+                    alert_text = "The opponent has left the game!";
                     socket.close();
                     ended = false;
                     break;
@@ -202,7 +202,7 @@ socket.onmessage = event => {
                     loginAlert.textContent = "Invalid username or password!";
                     break;
                 case 1:
-                    loginAlert.textContent = "This login already exists!";
+                    loginAlert.textContent = "The user with this username already exists!";
                     break;
                 case 2:
                     nick = form.login.value;
@@ -491,7 +491,7 @@ form.addEventListener("submit", e => {
                 );
                 document.querySelector("#login_btn").innerHTML = 'Log in'
                 logregText.innerHTML = 'Don\'t have an account yet?'
-                logregBtn.innerHTML = 'Sing up'
+                logregBtn.innerHTML = 'Sign up'
                 document.body.style.backgroundColor = '#003366';
                 document.querySelector(".block").style.backgroundColor = '#006699';
                 document.querySelector("#login_btn").style.width = '100px';
@@ -507,7 +507,7 @@ form.addEventListener("submit", e => {
                 );
                 document.querySelector("#login_btn").innerHTML = 'Log in'
                 logregText.innerHTML = 'Don\'t have an account yet?'
-                logregBtn.innerHTML = 'Sing up'
+                logregBtn.innerHTML = 'Sign up'
                 document.body.style.backgroundColor = '#003366';
                 document.querySelector(".block").style.backgroundColor = '#006699';
                 document.querySelector("#login_btn").style.width = '100px';
@@ -535,7 +535,7 @@ logregBtn.addEventListener("click", () => {
     else{
         document.querySelector("#login_btn").innerHTML = 'Log in'
         logregText.innerHTML = 'Don\'t have an account yet?'
-        logregBtn.innerHTML = 'Sing up'
+        logregBtn.innerHTML = 'Sign up'
         document.body.style.backgroundColor = '#003366';
         document.querySelector(".block").style.backgroundColor = '#006699';
         document.querySelector("#login_btn").style.width = '100px';
