@@ -11,6 +11,7 @@ var canvas = document.querySelector("canvas"),
     loginAlert = document.querySelector("#login_alert"),
     codeInput = document.querySelector("#code_input"),
     joinBtns = document.getElementsByClassName("join_game"),
+    joinCode = document.getElementById("join_code"),
     blocks = document.getElementsByClassName("block"),
     pingSnd = new Audio("sounds/ping.ogg"),
     field_startX = 30,
@@ -24,6 +25,7 @@ let active_startX,
     board_hits,
     opp_board,
     code,
+    room_code,
     nick,
     opp_nick,
     players_top,
@@ -454,6 +456,19 @@ const redraw = () => {
     }
 };
 
+joinCode.addEventListener("click", () => {
+    room_code = prompt("Enter room code","");
+    socket.send(
+        JSON.stringify(
+        {
+                type: "join",
+                data: 1,
+                code: room_code
+            }
+        )
+    );
+});
+
 for (let i = 0; i < joinBtns.length; i++) {
     joinBtns[i].addEventListener("click", () => {
         socket.send(
@@ -462,7 +477,7 @@ for (let i = 0; i < joinBtns.length; i++) {
                     ? {
                           type: "join",
                           data: i,
-                          code: codeInput.value
+                          code: room_code
                       }
                     : {
                           type: "join",
@@ -472,6 +487,7 @@ for (let i = 0; i < joinBtns.length; i++) {
         );
     });
 }
+
 
 form.addEventListener("submit", e => {
     e.preventDefault();
