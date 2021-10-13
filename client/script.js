@@ -2,7 +2,7 @@ const IP = "localhost";
 const PORT = 50500;
 const PROTOCOL = "ws"; //ws or wss PROTOCOL
 
-const canvas = document.querySelector("canvas"),
+var canvas = document.querySelector("canvas"),
     ctx = canvas.getContext("2d"),
     form = document.querySelector("form"),
     loginBtn = document.querySelector("#login_btn"),
@@ -490,6 +490,7 @@ form.addEventListener("submit", e => {
                         password: pswgd
                     })
                 );
+
             } else {
                 socket.send(
                     JSON.stringify({
@@ -499,20 +500,37 @@ form.addEventListener("submit", e => {
                         password: pswgd
                     })
                 );
+
             }
         } else {
-            loginAlert.innerHTML = "Please use only A-Z 0-9 characters";
+            loginAlert.innerHTML = "Пожалуйста, используйте только латинские буквы и цифры.";
         }
     } else {
-        loginAlert.innerHTML = "Login must be 4-20 characters long, password - 6-50";
+        loginAlert.innerHTML = "Логин должен быть в диопазоне от 3х до 20 символов. Пароль должен быть в диопазоне от 6 до 50 символов.";
     }
 });
 
 logregBtn.addEventListener("click", () => {
-    loginBtn.textContent = registr ? "Log in" : "Sign up";
-    logregBtn.textContent = registr ? "Register" : "Log in";
-    logregText.textContent = registr ? "Already have an account? " : "Don't have an account? ";
-    registr = !registr;
+    if (!registr) {
+        document.querySelector("#login_btn").innerHTML = 'Регистрация'
+        logregText.innerHTML = 'Уже есть аккаунт?'
+        logregBtn.innerHTML = 'Войдите в него'
+        document.body.style.backgroundColor = '#003300';
+        document.querySelector(".block").style.backgroundColor = '#006600';
+        document.querySelector("#login_btn").style.width = '120px';
+        document.querySelector("#login_btn").style.backgroundColor = '#339900';
+    }
+    else{
+        document.querySelector("#login_btn").innerHTML = 'Войти'
+        logregText.innerHTML = 'Ещё нету аккаунта?'
+        logregBtn.innerHTML = 'Создайте его'
+        document.body.style.backgroundColor = '#003366';
+        document.querySelector(".block").style.backgroundColor = '#006699';
+        document.querySelector("#login_btn").style.width = '100px';
+        document.querySelector("#login_btn").style.backgroundColor = '#0099CC';
+
+    }
+    registr = !registr
 });
 
 redraw();
