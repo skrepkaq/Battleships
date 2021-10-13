@@ -140,12 +140,12 @@ socket.onmessage = event => {
                     break;
                 case 0:
                     blocks[1].classList.add("hide");
-                    alert_text = "Wait for player";
+                    alert_text = "Wait for the opponent";
                     state = 0;
                     break;
                 case 1:
                     blocks[1].classList.add("hide");
-                    alert_text = "Place ur ships";
+                    alert_text = "Place your ships";
                     state = 1;
                     ended = false;
                     board = null;
@@ -172,23 +172,23 @@ socket.onmessage = event => {
         case "turn":
             turn = rc.data;
             if (turn === 1) {
-                alert_text = "Shot ur shot";
+                alert_text = "You walk";
             } else {
-                alert_text = "Wait for ur turn";
+                alert_text = "The opponent walks";
             }
             break;
         case "end":
             switch (rc.data) {
                 case 0:
-                    alert_text = "You lose";
+                    alert_text = "You've lost!";
                     ended = true;
                     break;
                 case 1:
-                    alert_text = "You win!";
+                    alert_text = "You have won!";
                     ended = true;
                     break;
                 case 4:
-                    alert_text = "Opponent left";
+                    alert_text = "The opponent is out!";
                     socket.close();
                     ended = false;
                     break;
@@ -199,19 +199,19 @@ socket.onmessage = event => {
             alert_text = "";
             switch (rc.data) {
                 case 0:
-                    loginAlert.textContent = "Wrong login or password";
+                    loginAlert.textContent = "Invalid username or password!";
                     break;
                 case 1:
-                    loginAlert.textContent = "Account with this login already exist";
+                    loginAlert.textContent = "This login already exists!";
                     break;
                 case 2:
                     nick = form.login.value;
                     break;
                 case 3:
-                    loginAlert.textContent = "This account is already online";
+                    loginAlert.textContent = "The account is already online!";
                     break;
                 case 5:
-                    loginAlert.textContent = "Stop creating so many accounts!";
+                    loginAlert.textContent = "STOP CREATING ACCOUNTS!";
                     break;
             }
             break;
@@ -232,7 +232,7 @@ socket.onmessage = event => {
 };
 
 const draw_field = (stX, stY) => {
-    ctx.fillStyle = "#000000";
+    ctx.fillStyle = "#FFFFFF";
     for (let i = 0; i < 11; i++)
         ctx.fillRect(stX + (i*field_size)/10, stY, field_canvas, field_size + field_canvas);
     for (let i = 0; i < 11; i++)
@@ -262,7 +262,7 @@ const draw_ships = (stX, stY, size, brd, is_shot) => {
                         break;
                     case 5:
                         errors++;
-                        ctx.fillStyle = "#000000";
+                        ctx.fillStyle = "#FFFFFF";
                         break;
                 }
                 ctx.fillRect(
@@ -327,7 +327,7 @@ const draw_ships_count = () => {
             18*(i+1),
             (-18/(4-i))*ships_count[i]
         );
-        ctx.strokeStyle = "#000000";
+        ctx.strokeStyle = "#FFFFFF";
         for (let j = 0; j < i + 1; j++) {
             ctx.strokeRect(
                 field_startX + field_size + 82 - 18*j,
@@ -350,14 +350,14 @@ const draw_alert = () => {
     ctx.font = "30px Tahoma";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillStyle = "#000000";
+    ctx.fillStyle = "#FFFFFF";
     if (state === 3)
         ctx.fillText(alert_text, field_startX + field_size + 25, field_startY - 30);
     else if (state === 0) {
         if (code) {
         ctx.font = "25px Tahoma";
-        ctx.fillText("Your connection", field_startX + field_size + 90, field_startY + field_size/2 - 35);
-        ctx.fillText(`code: ${code}`, field_startX + field_size + 90, field_startY + field_size/2 - 10);
+        ctx.fillText("To connect to you, use", field_startX + field_size + 90, field_startY + field_size/2 - 35);
+        ctx.fillText(`this code: ${code}`, field_startX + field_size + 90, field_startY + field_size/2 - 10);
         ctx.font = "15px Tahoma";
         ctx.fillText("(click to copy)", field_startX + field_size + 90, field_startY + field_size/2 + 10);
         } else
@@ -369,7 +369,7 @@ const draw_alert = () => {
 const draw_nick = () => {
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillStyle = "#000000";
+    ctx.fillStyle = "#FFFFFF";
     if (state === 3) {
         ctx.font = "30px Tahoma";
         ctx.fillText(nick, field_startX + field_size/2, field_startY + field_size + 30);
@@ -388,9 +388,8 @@ const draw_top = (x, y) => {
     if (players_top) {
         ctx.textAlign = "right";
         ctx.textBaseline = "middle";
-        ctx.fillStyle = "#000000";
+        ctx.fillStyle = "#FFFFFF";
         ctx.font = "25px Tahoma";
-        ctx.fillText("Top players:", x, y);
         for (let i = 0; i < players_top.length; i++) {
             ctx.font = "15px Tahoma";
             ctx.fillStyle = "#F00";
@@ -399,7 +398,7 @@ const draw_top = (x, y) => {
             ctx.fillStyle = "#0F0";
             ctx.fillText(players_top[i][1], x - offset - 13, y + 20*i + 30);
             offset += Math.floor(players_top[i][1]/10)*7;
-            ctx.fillStyle = "#000";
+            ctx.fillStyle = "#FFF";
             ctx.fillText(players_top[i][0], x - offset - 30, y + 20*i + 30);
         }
     }
@@ -490,7 +489,13 @@ form.addEventListener("submit", e => {
                         password: pswgd
                     })
                 );
-
+                document.querySelector("#login_btn").innerHTML = 'Log in'
+                logregText.innerHTML = 'Don\'t have an account yet?'
+                logregBtn.innerHTML = 'Sing up'
+                document.body.style.backgroundColor = '#003366';
+                document.querySelector(".block").style.backgroundColor = '#006699';
+                document.querySelector("#login_btn").style.width = '100px';
+                document.querySelector("#login_btn").style.backgroundColor = '#0099CC';
             } else {
                 socket.send(
                     JSON.stringify({
@@ -500,30 +505,37 @@ form.addEventListener("submit", e => {
                         password: pswgd
                     })
                 );
+                document.querySelector("#login_btn").innerHTML = 'Log in'
+                logregText.innerHTML = 'Don\'t have an account yet?'
+                logregBtn.innerHTML = 'Sing up'
+                document.body.style.backgroundColor = '#003366';
+                document.querySelector(".block").style.backgroundColor = '#006699';
+                document.querySelector("#login_btn").style.width = '100px';
+                document.querySelector("#login_btn").style.backgroundColor = '#0099CC';
 
             }
         } else {
-            loginAlert.innerHTML = "Пожалуйста, используйте только латинские буквы и цифры.";
+            loginAlert.innerHTML = "Please use only Latin letters and numbers.";
         }
     } else {
-        loginAlert.innerHTML = "Логин должен быть в диопазоне от 3х до 20 символов. Пароль должен быть в диопазоне от 6 до 50 символов.";
+        loginAlert.innerHTML = "The login must be in the range from 3 to 20 characters. The password must be in the range from 6 to 50 characters.";
     }
 });
 
 logregBtn.addEventListener("click", () => {
     if (!registr) {
-        document.querySelector("#login_btn").innerHTML = 'Регистрация'
-        logregText.innerHTML = 'Уже есть аккаунт?'
-        logregBtn.innerHTML = 'Войдите в него'
+        document.querySelector("#login_btn").innerHTML = 'Sing up'
+        logregText.innerHTML = 'Already have an account?'
+        logregBtn.innerHTML = 'Log in'
         document.body.style.backgroundColor = '#003300';
         document.querySelector(".block").style.backgroundColor = '#006600';
         document.querySelector("#login_btn").style.width = '120px';
         document.querySelector("#login_btn").style.backgroundColor = '#339900';
     }
     else{
-        document.querySelector("#login_btn").innerHTML = 'Войти'
-        logregText.innerHTML = 'Ещё нету аккаунта?'
-        logregBtn.innerHTML = 'Создайте его'
+        document.querySelector("#login_btn").innerHTML = 'Log in'
+        logregText.innerHTML = 'Don\'t have an account yet?'
+        logregBtn.innerHTML = 'Sing up'
         document.body.style.backgroundColor = '#003366';
         document.querySelector(".block").style.backgroundColor = '#006699';
         document.querySelector("#login_btn").style.width = '100px';
@@ -550,10 +562,10 @@ socket.onopen = () => {
 socket.onclose = event => {
     console.log(`Code: ${event.code} reason: ${event.reason}`);
     if (event.wasClean) {
-        console.log("Close connection");
+        console.log("The server is closed");
     } else {
-        console.log("Connection fail");
-        alert_text = "Failed to connect to server";
+        console.log("Connection error");
+        alert_text = "Server connection error";
         redraw();
     }
 };
