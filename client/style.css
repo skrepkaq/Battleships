@@ -2,16 +2,25 @@ body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
     height: 100vh;
-    display: grid;
-    place-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #003366;
+    transition: background-color, 1s;
 }
 
 .canvas_container {
-    position: absolute;
+    position: fixed;
+    top: 0;
+    left:0;
+    right: 0;
+    bottom: 0;
+    overflow: auto;
+    padding: calc(50vh - 210px) calc(50vw - 425px);
 }
 
 #logreg_btn {
-    color: #0000FF;
+    color:white;
     cursor: pointer;
 }
 
@@ -20,7 +29,7 @@ body {
 }
 
 #login_alert {
-    color: red;
+    color: white;
 }
 
 table td {
@@ -43,11 +52,12 @@ table td {
 .block {
     position: fixed;
     z-index: 5;
-    background-color: #00000050;
+    background-color: #006699;
+    transition: background-color, 1s;
     display: block;
     padding: 1em;
     border-radius: 1em;
-    width: 300px;
+    width: 350px;
 }
 
 input,
@@ -55,19 +65,28 @@ button {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
     font-size: 1em;
     padding: 0.5em;
-    border-radius: 0.5em;
-    border: 1px solid black;
     color: black;
     background-color: #ebebeb;
     outline: none;
+    border: 0px solid black;
+    border-radius: 0px;
 }
+input::-webkit-input-placeholder { color: white; }
 button {
     cursor: pointer;
+    border: 0px solid black;
+    border-radius: 10px;
 }
-button:active,
-input:focus {
-    background: white;
+
+#login_btn {
+    background-color: #0099CC;
+    width: 100px;
+    color: white;
+    transition: background-color, 1s;
+    transition: width, 1s;
 }
+
+
 a {
     color: black;
     text-decoration: underline;
@@ -77,9 +96,7 @@ form {
     flex-direction: column;
     gap: 0.5em;
 }
-#login_btn {
-    width: 100px;
-}
+
 .join_container {
     display: flex;
     flex-direction: column;
@@ -90,10 +107,38 @@ form {
 }
 .join_container div input {
     width: 70%;
-    border-radius: 0.5em 0 0 0.5em;
+    border-radius: 0 0 0 0;
 }
 
 .join_container div button {
     width: 30%;
+    margin-left: -1px;
     border-radius: 0 0.5em 0.5em 0;
+}
+
+* {
+    outline:none;
+}
+
+*::-webkit-scrollbar {width:0px;}
+
+.txt_box {
+    background-color: transparent;
+    color: white;
+}
+
+.game_logo {
+    color: white;
+}
+
+.separator {
+    background-color: #FFF;
+    height: 1px;
+    margin-top: -10px;
+    margin-bottom: 5px;
+    margin-right: 15px;
+}
+
+#logreg_text {
+    color: #999999;
 }
