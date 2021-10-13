@@ -6,17 +6,9 @@ body {
     justify-content: center;
     align-items: center;
 }
-
 .canvas_container {
-    position: fixed;
-    top: 0;
-    left:0;
-    right: 0;
-    bottom: 0;
     overflow: auto;
-    padding: calc(50vh - 210px) calc(50vw - 425px);
 }
-
 #logreg_btn {
     color: #0000FF;
     cursor: pointer;
@@ -28,10 +20,6 @@ body {
 
 #login_alert {
     color: red;
-}
-
-table td {
-    text-align: center;
 }
 
 .game_text {
@@ -55,6 +43,9 @@ table td {
     padding: 1em;
     border-radius: 1em;
     width: 300px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 input,
