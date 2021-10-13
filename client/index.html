@@ -9,24 +9,26 @@
     </head>
     <body>
         <section class="block hide">
-            <h2>Welcome to Battleships</h2>
+            <h2 class="game_logo">Welcome to Battleships!</h2>
             <form>
-                <input type="text" name="login" size="20" placeholder="Login" value="" required autocomplete="nickname"/>
-                <input type="password" name="password" size="20" placeholder="Password" value="" required autocomplete="current-password"/>
-                <button id="login_btn" type="submit">Log in</button>
+                <input class="txt_box" type="text" name="login" size="20" placeholder="Login" value="" required autocomplete="nickname"/>
+                <div class="separator"></div>
+                <input class="txt_box" type="password" name="password" size="20" placeholder="Password" value="" required autocomplete="current-password"/>
+                <div class="separator"></div>
+                <button class="login_btn" id="login_btn" type="submit">Log in</button>
             </form>
             <p id="login_alert"></p>
             <p>
-                <span id="logreg_text">Don't have an account?</span>
-                <a id="logreg_btn">Register</a> now!
+                <span id="logreg_text">Don't have an account yet?</span>
+                <a id="logreg_btn">Sing up</a> <span style="color: #FFFFFF"> now!</span>
             </p>
         </section>
+
+
         <section class="block hide join_container">
-            <button class="join_game">Join random game</button>
-            <div>
-                <input type="text" id="code_input" size="4" placeholder="code" />
-                <button class="join_game">Use code</button>
-            </div>
+
+            <button class="join_game">Random game</button>
+            <button class="join_game" id="join_code">Use code</button>
             <button class="join_game">Create game</button>
         </section>
         <div class="canvas_container">
