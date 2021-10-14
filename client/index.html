@@ -8,7 +8,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     </head>
     <body>
-        <section class="block hide">
+        <section class="block hide form">
             <h2>Welcome to Battleships</h2>
             <form>
                 <input type="text" name="login" size="20" placeholder="Login" value="" required autocomplete="nickname"/>
@@ -21,13 +21,29 @@
                 <a id="logreg_btn">Register</a> now!
             </p>
         </section>
-        <section class="block hide join_container">
-            <button class="join_game">Join random game</button>
+        <section class="block hide main_menu">
+            <div class="join_container">
+                <button class="join_game">Join random game</button>
             <div>
                 <input type="text" id="code_input" size="4" placeholder="code" />
                 <button class="join_game">Use code</button>
             </div>
             <button class="join_game">Create game</button>
+            </div>
+            <div class="block scoreboard">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Games won</th>
+                            <th>Games lost</th>
+                        </tr>
+                    </thead>
+                    <tbody id="scoreboard">
+                        
+                    </tbody>
+                </table>
+            </div>
         </section>
         <div class="canvas_container">
             <canvas width="850" height="420"></canvas>

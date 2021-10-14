@@ -386,22 +386,9 @@ const draw_nick = () => {
 
 const draw_top = (x, y) => {
     if (players_top) {
-        ctx.textAlign = "right";
-        ctx.textBaseline = "middle";
-        ctx.fillStyle = "#000000";
-        ctx.font = "25px Tahoma";
-        ctx.fillText("Top players:", x, y);
-        for (let i = 0; i < players_top.length; i++) {
-            ctx.font = "15px Tahoma";
-            ctx.fillStyle = "#F00";
-            ctx.fillText(players_top[i][2], x, y + 20*i + 30);
-            let offset = Math.floor(players_top[i][2]/10)*7;
-            ctx.fillStyle = "#0F0";
-            ctx.fillText(players_top[i][1], x - offset - 13, y + 20*i + 30);
-            offset += Math.floor(players_top[i][1]/10)*7;
-            ctx.fillStyle = "#000";
-            ctx.fillText(players_top[i][0], x - offset - 30, y + 20*i + 30);
-        }
+        const scoreboard = document.getElementById('scoreboard');
+        for (player of players_top) 
+            scoreboard.innerHTML += `<tr>${player.map(s => `<td>${s}</td>`).join('')}</tr>`;
     }
 };
 
