@@ -395,10 +395,10 @@ const draw_top = (x, y) => {
             ctx.font = "15px Tahoma";
             ctx.fillStyle = "#F00";
             ctx.fillText(players_top[i][2], x, y + 20*i + 30);
-            let offset = Math.floor(players_top[i][2]/10)*7;
+            let offset = (String(players_top[i][2]).length-1)*9;
             ctx.fillStyle = "#0F0";
             ctx.fillText(players_top[i][1], x - offset - 13, y + 20*i + 30);
-            offset += Math.floor(players_top[i][1]/10)*7;
+            offset += (String(players_top[i][1]).length-1)*8;
             ctx.fillStyle = "#000";
             ctx.fillText(players_top[i][0], x - offset - 30, y + 20*i + 30);
         }
