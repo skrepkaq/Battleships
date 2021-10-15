@@ -53,12 +53,13 @@ async def handler(websocket, _):
         users.remove(user)
 
 
+async def server():
+    async with websockets.serve(handler, config.IP, config.PORT, ssl=ssl_context):
+        await asyncio.Future()
+
 if __name__ == '__main__':
+    ssl_context = None
     if config.SSL_KEY:
         ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
         ssl_context.load_cert_chain(config.SSL_CHAIN, config.SSL_KEY)
-        start_server = websockets.serve(handler, config.IP, config.PORT, ssl=ssl_context)
-    else:
-        start_server = websockets.serve(handler, config.IP, config.PORT)
-    asyncio.get_event_loop().run_until_complete(start_server)
-    asyncio.get_event_loop().run_forever()
+    asyncio.run(server())
