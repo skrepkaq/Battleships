@@ -384,11 +384,11 @@ const draw_nick = () => {
     }
 };
 
-const draw_top = (x, y) => {
+const draw_top = () => {
     if (players_top) {
         const scoreboard = document.getElementById('scoreboard');
         for (player of players_top) 
-            scoreboard.innerHTML += `<tr>${player.map(s => `<td>${s}</td>`).join('')}</tr>`;
+            scoreboard.innerHTML += `<tr ${player[0] === nick ? 'style="font-weight: bold"': ''}>${player.map(s => `<td>${s}</td>`).join('')}</tr>`;
     }
 };
 
@@ -418,7 +418,7 @@ const redraw = () => {
     if (board) draw_ships(field_startX, field_startY, field_size, board, false);
     switch (state) {
         case -1:
-            draw_top(field_startX + 190, field_startY + 70);
+            draw_top();
             break;
         case 1:
             draw_field(field_startX, field_startY);
@@ -428,13 +428,13 @@ const redraw = () => {
             break;
         case 2:
             draw_field(field_startX, field_startY);
-            draw_top(active_startX + field_size + 160, active_startY + 40);
+            draw_top();
             draw_nick();
             break;
         case 3:
             draw_field(field_startX, field_startY);
             draw_field(active_startX, active_startY);
-            draw_top(active_startX + field_size + 160, active_startY + 40);
+            draw_top();
             draw_nick();
             if (opp_board) draw_ships(active_startX, active_startY, field_size, opp_board, true);
             if (board_hits) draw_ships(field_startX, field_startY, field_size, board_hits, true);
