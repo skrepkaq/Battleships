@@ -206,6 +206,7 @@ socket.onmessage = event => {
                     break;
                 case 2:
                     nick = form.login.value;
+                    if (nick) localStorage.setItem('nick', nick)
                     break;
                 case 3:
                     loginAlert.textContent = "This account is already online";
@@ -387,8 +388,9 @@ const draw_nick = () => {
 const draw_top = () => {
     if (players_top) {
         const scoreboard = document.getElementById('scoreboard');
+        const nickname = nick || localStorage.getItem('nick')
         for (player of players_top) 
-            scoreboard.innerHTML += `<tr ${player[0] === nick ? 'style="font-weight: bold"': ''}>${player.map(s => `<td>${s}</td>`).join('')}</tr>`;
+            scoreboard.innerHTML += `<tr ${player[0] === nickname ? 'style="font-weight: bold"': ''}>${player.map(s => `<td>${s}</td>`).join('')}</tr>`;
     }
 };
 
