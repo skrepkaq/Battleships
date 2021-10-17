@@ -511,7 +511,7 @@ form.addEventListener("submit", e => {
 logregBtn.addEventListener("click", () => {
     loginBtn.textContent = registr ? "Log in" : "Sign up";
     logregBtn.textContent = registr ? "Register" : "Log in";
-    logregText.textContent = registr ? "Already have an account? " : "Don't have an account? ";
+    logregText.textContent = registr ? "Don't have an account? " : "Already have an account? ";
     registr = !registr;
 });
 
