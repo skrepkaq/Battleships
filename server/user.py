@@ -6,7 +6,7 @@ import log
 class User:
     def __init__(self, websocket):
         self.ws = websocket
-        self.state = 0  # 0-pre login 1-login 2-in game
+        self.state = 0  # 0-pre login 1-login 3-game search 2-in game
         self.id = None
         self.nickname = None
 

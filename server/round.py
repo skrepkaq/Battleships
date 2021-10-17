@@ -22,6 +22,7 @@ class Round():
 
     async def add_player(self, user):
         self.players_list.append(Player(user))
+        user.set_state(3)
         if len(self.players_list) == 2:
             await self.start()
         else:
