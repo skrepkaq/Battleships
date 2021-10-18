@@ -53,8 +53,8 @@ async def finish_place(user, _):
 
 async def restart(user, _):
     round, _ = get_round(user)
-    if len(round.get_players()) > 1:
-        await round.start()
+    if round.get_state() != 4 or len(round.get_players()) < 2: return
+    await round.start()
 
 
 async def finish(user):

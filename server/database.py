@@ -48,7 +48,8 @@ def find(table, col, val):
 
 
 def check_token(ip, token):
-    sql.execute(F"SELECT * FROM tokens WHERE ip = '{ip}' AND token = '{token}' AND state = 1")
+    sql.execute(F"""SELECT * FROM tokens WHERE ip = '{ip}' AND token = '{token}'
+                    AND state = 1 AND time > {time.time()-86400}""")
     return sql.fetchone()
 
 
