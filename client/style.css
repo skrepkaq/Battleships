@@ -7,7 +7,11 @@ body {
 }
 
 .canvas_container {
-    position: absolute;
+    position: relative;
+    top: 12rem;
+    width: 300px;
+    transition: top 0s;
+    transition: width 0s;
 }
 
 #logreg_btn {
@@ -96,10 +100,4 @@ form {
 .join_container div button {
     width: 30%;
     border-radius: 0 0.5em 0.5em 0;
-}
-
-#_canvas_ {
-    position: relative;
-    top: 12rem;
-    left: 12rem;
 }
