@@ -97,3 +97,9 @@ form {
     width: 30%;
     border-radius: 0 0.5em 0.5em 0;
 }
+
+#_canvas_ {
+    position: relative;
+    top: 12rem;
+    left: 12rem;
+}
