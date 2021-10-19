@@ -102,10 +102,5 @@ def get_top(nick):
     """)
     users = sql.fetchall()
     place = ''
-    for i, user in enumerate(users):
-        if nick == user[0]:
-            place = ("Your place:", '', i + 1)
     users = users[:10]
-    if place:
-        users.append(place)
     return users
