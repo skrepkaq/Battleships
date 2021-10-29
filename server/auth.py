@@ -34,4 +34,5 @@ async def authorization(users, user, rc) -> None:
     await wst.send(user.ws, {'type': 'login_result', 'data': login_result})
     if login_result == 2:
         await wst.send(user.ws, {'type': 'state', 'data': -1})
+        await wst.send(user.ws, {'type': 'nick', 'data': user.get_nickname()})
         await wst.send(user.ws, {'type': 'top', 'data': database.get_top(user.get_nickname())})

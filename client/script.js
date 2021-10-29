@@ -205,9 +205,6 @@ socket.onmessage = event => {
                 case 1:
                     loginAlert.textContent = "Account with this login already exist";
                     break;
-                case 2:
-                    nick = form.login.value;
-                    break;
                 case 3:
                     loginAlert.textContent = "This account is already online";
                     break;
@@ -221,6 +218,9 @@ socket.onmessage = event => {
             break;
         case "top":
             players_top = rc.data;
+            break;
+        case "nick":
+            nick = rc.data;
             break;
         case "op_nick":
             opp_nick = rc.data;
