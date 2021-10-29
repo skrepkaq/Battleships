@@ -13,6 +13,7 @@ const canvas = document.querySelector("canvas"),
     joinBtns = document.getElementsByClassName("join_game"),
     blocks = document.getElementsByClassName("block"),
     pingSnd = new Audio("sounds/ping.ogg"),
+    ABC = "ABCDEFGHIJ",
     field_startX = 30,
     field_startY = 70,
     field_size = 300,
@@ -233,10 +234,16 @@ socket.onmessage = event => {
 
 const draw_field = (stX, stY) => {
     ctx.fillStyle = "#000000";
-    for (let i = 0; i < 11; i++)
+    ctx.font = "15px Tahoma";
+    ctx.textAlign = "middle";
+    for (let i = 0; i < 11; i++) {
         ctx.fillRect(stX + (i*field_size)/10, stY, field_canvas, field_size + field_canvas);
-    for (let i = 0; i < 11; i++)
+        if (i < 10) ctx.fillText(ABC[i], stX + ((i+0.5)*field_size)/10, stY-10)
+    }
+    for (let i = 0; i < 11; i++) {
         ctx.fillRect(stX, stY+(i*field_size)/10, field_size, field_canvas);
+        if (i < 10) ctx.fillText(i+1, stX-15, stY+((i+0.5)*field_size)/10)
+    }
 };
 
 const draw_ships = (stX, stY, size, brd, is_shot) => {
@@ -352,7 +359,7 @@ const draw_alert = () => {
     ctx.textBaseline = "middle";
     ctx.fillStyle = "#000000";
     if (state === 3)
-        ctx.fillText(alert_text, field_startX + field_size + 25, field_startY - 30);
+        ctx.fillText(alert_text, field_startX + field_size + 25, field_startY - 40);
     else if (state === 0) {
         if (code) {
         ctx.font = "25px Tahoma";
@@ -363,7 +370,7 @@ const draw_alert = () => {
         } else
             ctx.fillText(alert_text, field_startX + field_size + 90, field_startY + field_size/2 - 10);
     } else
-    ctx.fillText(alert_text, field_startX + field_size/2, field_startY - 30);
+        ctx.fillText(alert_text, field_startX + field_size/2, field_startY - 40);
 };
 
 const draw_nick = () => {
