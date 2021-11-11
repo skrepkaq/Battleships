@@ -11,10 +11,10 @@ import websockets
 import database
 import log
 import wst
-import game
-import auth
 import config
-from user import User
+from user import auth
+from user.user import User
+from game import game
 
 
 database.tables_create()

@@ -1,6 +1,6 @@
 import database
 import wst
-from player import Player
+from game.player import Player
 from random import randint, choice
 
 

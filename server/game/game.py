@@ -1,6 +1,6 @@
 import wst
 import database
-from round import Round
+from game.round import Round
 
 
 rounds = set()

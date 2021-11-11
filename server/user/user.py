@@ -1,6 +1,6 @@
 import database
-import login_token
 import log
+from user import login_token
 
 
 class User:
