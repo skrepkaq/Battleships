@@ -1,5 +1,6 @@
 import time
 import secrets
+import re
 import database
 import wst
 
@@ -14,6 +15,7 @@ async def create(user_id, ws):
 
 def use(token, ws):
     # checks if token is valid. Returns userID
+    if not re.fullmatch(r"[a-z\d]{30,32}", token): return False
     sql_token = database.check_token(ws.remote_address[0], token)
     if not sql_token: return False
     database.expire_tokens('tokenId', sql_token[0], 0)
