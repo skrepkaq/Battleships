@@ -8,6 +8,10 @@ Using [websockets](https://pypi.org/project/websockets/) to connect to the clien
 
 And JS for the client-side
 
+## Play now
+
+You can play in game [here](https://skrepkaq.ru/games/battleships/)!
+
 ## Installation
 
 1. Use the [pip](https://pip.pypa.io/en/stable/) to install libs from requirements.txt.
