@@ -3,6 +3,7 @@ const PORT = 50500;
 const PROTOCOL = "ws"; //ws or wss PROTOCOL
 
 const canvas = document.querySelector("canvas"),
+    cc = document.querySelector(".canvas_container")
     ctx = canvas.getContext("2d"),
     form = document.querySelector("form"),
     loginBtn = document.querySelector("#login_btn"),
@@ -464,6 +465,8 @@ const redraw = () => {
 
 for (let i = 0; i < joinBtns.length; i++) {
     joinBtns[i].addEventListener("click", () => {
+        cc.style.top = '0';
+        cc.style.width = '850px';
         socket.send(
             JSON.stringify(
                 i === 1
